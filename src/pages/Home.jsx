@@ -1,14 +1,16 @@
 import React from "react";
 
 import Catigories from "../components/Categories";
+import Pagination from "../components/Pargination";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort from "../components/Sort";
 
-export default function Home() {
+export default function Home({ searchQuery }) {
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [checkedCategory, setCheckedCategory] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [selectedSort, setSelectedSort] = React.useState({
     name: "популярности",
     query: "rating",
@@ -18,9 +20,12 @@ export default function Home() {
   React.useEffect(() => {
     setIsLoading(true);
     let url = `https://6350b1143e9fa1244e4afe11.mockapi.io/pizzas`;
-    url += `?sortby=${selectedSort.query}&order=${selectedSort.order}`;
+    url += `?page=${currentPage}&limit=4&sortby=${selectedSort.query}&order=${selectedSort.order}`;
     if (checkedCategory) {
       url += `&category=${checkedCategory}`;
+    }
+    if (searchQuery !== "") {
+      url += `&search=${searchQuery}`;
     }
     fetch(url)
       .then((response) => response.json())
@@ -29,7 +34,7 @@ export default function Home() {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [checkedCategory, selectedSort]);
+  }, [checkedCategory, selectedSort, searchQuery, currentPage]);
 
   return (
     <div className="container">
@@ -46,6 +51,7 @@ export default function Home() {
           ? [...new Array(6)].map((_, id) => <Skeleton key={id} />)
           : pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
       </div>
+      <Pagination setCurrentPage={setCurrentPage} />
     </div>
   );
 }
