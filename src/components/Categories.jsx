@@ -1,7 +1,6 @@
 import React from "react";
 
-export default function Catigories() {
-  const [checked, setChecked] = React.useState(0);
+export default function Catigories({checkedCategory, setCheckedCategory}) {
   const categories = [
     "Все",
     "Мясные",
@@ -17,8 +16,8 @@ export default function Catigories() {
         {categories.map((value, index) => (
           <li
             key={value}
-            onClick={() => setChecked(index)}
-            className={checked === index ? "active" : ""}
+            onClick={() => setCheckedCategory(index)}
+            className={checkedCategory === index ? "active" : ""}
           >
             {value}
           </li>
