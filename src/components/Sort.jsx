@@ -1,12 +1,17 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedSort } from "../redux/slices/sortSlice";
 
-export default function Sort({ selectedSort, setSelectedSort }) {
+const sortList = [
+  { name: "популярности", query: "rating", order: "desc" },
+  { name: "цене", query: "price", order: "asc" },
+  { name: "алфавиту", query: "asc", order: "asc" },
+];
+
+export default function Sort() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const sortList = [
-    { name: "популярности", query: "rating", order: "desc" },
-    { name: "цене", query: "price", order: "asc" },
-    { name: "алфавиту", query: "asc", order: "asc" },
-  ];
+  const selectedSort = useSelector((state) => state.sort.value);
+  const dispatch = useDispatch();
 
   return (
     <div className="sort">
@@ -33,11 +38,13 @@ export default function Sort({ selectedSort, setSelectedSort }) {
               <li
                 key={sortTypeObj.name}
                 onClick={() => {
-                  setSelectedSort({
-                    name: sortTypeObj.name,
-                    query: sortTypeObj.query,
-                    order: sortTypeObj.order,
-                  });
+                  dispatch(
+                    setSelectedSort({
+                      name: sortTypeObj.name,
+                      query: sortTypeObj.query,
+                      order: sortTypeObj.order,
+                    })
+                  );
                   setIsOpen(false);
                 }}
                 className={

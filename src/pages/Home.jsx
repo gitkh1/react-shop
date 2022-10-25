@@ -1,23 +1,21 @@
 import React from "react";
-import { SearchContext } from "../App";
 
 import Catigories from "../components/Categories";
-import Pagination from "../components/Pargination";
+import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort from "../components/Sort";
+import { useSelector } from "react-redux";
 
 export default function Home() {
-  const { searchQuery } = React.useContext(SearchContext);
+  const stateSelector = useSelector((state) => state);
+  const searchQuery = stateSelector.search.value;
+  const checkedCategory = stateSelector.category.value;
+  const selectedSort = stateSelector.sort.value;
+
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [checkedCategory, setCheckedCategory] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [selectedSort, setSelectedSort] = React.useState({
-    name: "популярности",
-    query: "rating",
-    order: "desc",
-  });
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -41,11 +39,8 @@ export default function Home() {
   return (
     <div className="container">
       <div className="content__top">
-        <Catigories
-          checkedCategory={checkedCategory}
-          setCheckedCategory={setCheckedCategory}
-        />
-        <Sort selectedSort={selectedSort} setSelectedSort={setSelectedSort} />
+        <Catigories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
