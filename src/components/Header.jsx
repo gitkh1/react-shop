@@ -3,7 +3,7 @@ import logo from "../assets/img/pizza-logo.svg";
 import cart from "../assets/img/cart-icon.svg";
 import Input from "./Search";
 
-export default function Header({ searchQuery, setSearchQuery }) {
+export default function Header() {
   return (
     <div className="header">
       <div className="container">
@@ -16,7 +16,7 @@ export default function Header({ searchQuery, setSearchQuery }) {
             </div>
           </div>
         </Link>
-        <Input searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <Input />
         <div className="header__cart">
           <Link className="button button--cart" to="/cart">
             <span>0 ₽</span>
