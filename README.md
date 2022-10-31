@@ -2,7 +2,7 @@
 
 ## Технологиии, которые будут использованы в проекте
 
-- Язык JavaScript и TypeScript
+- Языки JavaScript и TypeScript
 - Компонентный подход
 - ReactJS
 - Redux Toolkit
