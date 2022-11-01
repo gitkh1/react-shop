@@ -12,10 +12,10 @@ export default function Home() {
   const searchQuery = stateSelector.search.value;
   const checkedCategory = stateSelector.category.value;
   const selectedSort = stateSelector.sort.value;
+  const currentPage = stateSelector.sort.currentPage;
 
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -48,7 +48,7 @@ export default function Home() {
           ? [...new Array(6)].map((_, id) => <Skeleton key={id} />)
           : pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
       </div>
-      <Pagination setCurrentPage={setCurrentPage} />
+      <Pagination />
     </div>
   );
 }
