@@ -60,7 +60,6 @@ export default function Home() {
       .then((data) => {
         setPizzas(data);
         setIsLoading(false);
-        console.log(data);
       });
     window.scrollTo(0, 0);
   }, [checkedCategory, selectedSort, searchQuery, currentPage]);
