@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedSort } from "../redux/slices/sortSlice";
 
-const sortList = [
+export const sortList = [
   { name: "популярности", query: "rating", order: "desc" },
   { name: "цене", query: "price", order: "asc" },
   { name: "алфавиту", query: "asc", order: "asc" },
@@ -12,9 +12,21 @@ export default function Sort() {
   const [isOpen, setIsOpen] = React.useState(false);
   const selectedSort = useSelector((state) => state.sort.value);
   const dispatch = useDispatch();
+  const sortRef = React.useRef();
+  React.useEffect(() => {
+    const handleCLickOutside = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setIsOpen(false);
+      }
+    };
+    document.body.addEventListener("click", handleCLickOutside);
+    return () => {
+      document.body.removeEventListener("click", handleCLickOutside);
+    };
+  }, []);
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label" onClick={() => setIsOpen(!isOpen)}>
         <svg
           width="10"
