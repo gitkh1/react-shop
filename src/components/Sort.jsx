@@ -1,15 +1,32 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedSort } from "../redux/slices/sortSlice";
 
-export default function Sort({ selectedSort, setSelectedSort }) {
+export const sortList = [
+  { name: "популярности", query: "rating", order: "desc" },
+  { name: "цене", query: "price", order: "asc" },
+  { name: "алфавиту", query: "asc", order: "asc" },
+];
+
+export default function Sort() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const sortList = [
-    { name: "популярности", query: "rating", order: "desc" },
-    { name: "цене", query: "price", order: "asc" },
-    { name: "алфавиту", query: "asc", order: "asc" },
-  ];
+  const selectedSort = useSelector((state) => state.sort.value);
+  const dispatch = useDispatch();
+  const sortRef = React.useRef();
+  React.useEffect(() => {
+    const handleCLickOutside = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setIsOpen(false);
+      }
+    };
+    document.body.addEventListener("click", handleCLickOutside);
+    return () => {
+      document.body.removeEventListener("click", handleCLickOutside);
+    };
+  }, []);
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label" onClick={() => setIsOpen(!isOpen)}>
         <svg
           width="10"
@@ -33,11 +50,13 @@ export default function Sort({ selectedSort, setSelectedSort }) {
               <li
                 key={sortTypeObj.name}
                 onClick={() => {
-                  setSelectedSort({
-                    name: sortTypeObj.name,
-                    query: sortTypeObj.query,
-                    order: sortTypeObj.order,
-                  });
+                  dispatch(
+                    setSelectedSort({
+                      name: sortTypeObj.name,
+                      query: sortTypeObj.query,
+                      order: sortTypeObj.order,
+                    })
+                  );
                   setIsOpen(false);
                 }}
                 className={

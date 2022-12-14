@@ -1,14 +1,19 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCheckedCategory } from "../redux/slices/categorySlice.js";
 
-export default function Catigories({checkedCategory, setCheckedCategory}) {
-  const categories = [
-    "Все",
-    "Мясные",
-    "Вегетарианская",
-    "Гриль",
-    "Острые",
-    "Закрытые",
-  ];
+const categories = [
+  "Все",
+  "Мясные",
+  "Вегетарианская",
+  "Гриль",
+  "Острые",
+  "Закрытые",
+];
+
+export default function Catigories() {
+  const checkedCategory = useSelector((state) => state.category.value);
+  const dispatch = useDispatch();
 
   return (
     <div className="categories">
@@ -16,7 +21,7 @@ export default function Catigories({checkedCategory, setCheckedCategory}) {
         {categories.map((value, index) => (
           <li
             key={value}
-            onClick={() => setCheckedCategory(index)}
+            onClick={() => dispatch(setCheckedCategory(index))}
             className={checkedCategory === index ? "active" : ""}
           >
             {value}
